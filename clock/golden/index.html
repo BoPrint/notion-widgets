@@ -1,1 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+
+<style>
+
+/* =================================
+   CLOCK WIDGET GOLDEN MASTER v2.0
+   STATUS: LOCKED
+================================= */
+
+:root {
+
+  /* 🌸 Dusty Rose */
+  --hours-color: rgba(221,176,168,0.92);
+
+  /* 🤍 Warm Cream */
+  --minutes-color: rgba(243,232,225,0.92);
+
+  /* Text */
+  --hours-text: #FFFFFF;
+  --minutes-text: #7E6A63;
+
+}
+
+
+/* RESET */
+
+* {
+  box-sizing: border-box;
+}
+
+
+/* PAGE */
+
+body {
+
+  margin: 0;
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: transparent;
+
+  font-family: 'Montserrat', sans-serif;
+
+}
+
+
+/* CLOCK */
+
+.clock {
+
+  display: flex;
+
+  gap: 10px;
+
+}
+
+
+/* BLOCKS */
+
+.block {
+
+  position: relative;
+
+  width: min(180px,40vw);
+  height: min(240px,52vw);
+
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  backdrop-filter: blur(10px);
+
+}
+
+
+/* HOURS */
+
+.hours {
+
+  background: var(--hours-color);
+
+  border-radius:
+
+  42px
+  0
+  0
+  42px;
+
+}
+
+
+/* MINUTES */
+
+.minutes {
+
+  background: var(--minutes-color);
+
+  border-radius:
+
+  0
+  42px
+  42px
+  0;
+
+}
+
+
+
+/* CENTER */
+
+.center {
+
+  display:flex;
+
+  justify-content:center;
+  align-items:center;
+
+  width:100%;
+  height:100%;
+
+}
+
+
+
+/* NUMBERS */
+
+.time {
+
+  font-size:
+
+  clamp(100px,20vw,150px);
+
+  font-weight:900;
+
+  line-height:0.9;
+
+  letter-spacing:-2px;
+
+  font-variant-numeric:tabular-nums;
+
+}
+
+
+.hours .time {
+
+  color:var(--hours-text);
+
+}
+
+
+.minutes .time {
+
+  color:var(--minutes-text);
+
+}
+
+
+
+/* DAY */
+
+.day {
+
+  position:absolute;
+
+  left:16px;
+  bottom:16px;
+
+
+  font-size:14px;
+
+  font-weight:800;
+
+  letter-spacing:1px;
+
+  color:white;
+
+}
+
+
+
+/* AM PM */
+
+.ampm {
+
+  position:absolute;
+
+
+  right:16px;
+  bottom:16px;
+
+
+  font-size:14px;
+
+  font-weight:800;
+
+  letter-spacing:1px;
+
+
+  color:var(--minutes-text);
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="clock">
+
+
+<div class="block hours">
+
+<div class="center">
+<div class="time" id="hours">12</div>
+</div>
+
+<div class="day" id="day">
+MONDAY
+</div>
+
+</div>
+
+
+
+
+<div class="block minutes">
+
+
+<div class="center">
+
+<div class="time" id="minutes">
+00
+</div>
+
+</div>
+
+
+<div class="ampm" id="ampm">
+PM
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+let lastHour="";
+let lastMinute="";
+let lastPeriod="";
+
+
+function updateClock(){
+
+
+const now=new Date();
+
+
+let hours=now.getHours();
+
+const minutes=now.getMinutes();
+
+
+const period = hours >=12 ? "PM":"AM";
+
+
+hours = hours % 12;
+
+if(hours===0){
+hours=12;
+}
+
+
+
+const h=String(hours).padStart(2,"0");
+
+const m=String(minutes).padStart(2,"0");
+
+
+
+if(h!==lastHour){
+
+document.getElementById("hours").textContent=h;
+
+lastHour=h;
+
+}
+
+
+
+if(m!==lastMinute){
+
+document.getElementById("minutes").textContent=m;
+
+lastMinute=m;
+
+}
+
+
+
+if(period!==lastPeriod){
+
+document.getElementById("ampm").textContent=period;
+
+lastPeriod=period;
+
+}
+
+
+
+
+const days=[
+
+"SUNDAY",
+"MONDAY",
+"TUESDAY",
+"WEDNESDAY",
+"THURSDAY",
+"FRIDAY",
+"SATURDAY"
+
+];
+
+
+document.getElementById("day").textContent =
+days[now.getDay()];
+
+
+}
+
+
+
+updateClock();
+
+setInterval(updateClock,60000);
+
+
+
+</script>
+
+
+</body>
+
+</html>
